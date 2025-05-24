@@ -25,6 +25,9 @@ pipeline {
                         git branch: 'main', url: 'https://github.com/tpenha05/store-auth.git'
                         sh 'mvn clean install -DskipTests'
                     }
+                    dir('libs/product') {
+                        git branch: 'main', url: 'https://github.com/tpenha05/store-product.git'
+                        sh 'mvn clean install -DskipTests'}
                 }
             }
         }

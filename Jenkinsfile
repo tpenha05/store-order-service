@@ -3,7 +3,7 @@ pipeline {
     tools {
         maven 'maven-3'
         jdk 'jdk-21'
-    }
+    }git
     environment {
         SERVICE = 'account'
         NAME = "tpenha05/${env.SERVICE}"
@@ -21,7 +21,7 @@ pipeline {
         }      
         stage('Build & Push Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credential', usernameVariable: 'USERNAME', passwordVariable: 'TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'USERNAME', passwordVariable: 'TOKEN')]) {
                     sh "docker login -u $USERNAME -p $TOKEN"
                     sh "docker buildx create --use --platform=linux/arm64,linux/amd64 --node multi-platform-builder-${env.SERVICE} --name multi-platform-builder-${env.SERVICE}"
                     sh "docker buildx build --platform=linux/arm64,linux/amd64 --push --tag ${env.NAME}:latest --tag ${env.NAME}:${env.BUILD_ID} -f Dockerfile ."
